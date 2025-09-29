@@ -1,8 +1,3 @@
-/*----------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- *---------------------------------------------------------------------------------------*/
-
 package main
 
 import (
@@ -10,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/microsoft/vscode-remote-try-go/hello"
+	"github.com/levpa/golang-try/hello"
 )
 
 func handle(w http.ResponseWriter, r *http.Request) {

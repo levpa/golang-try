@@ -1,3 +1,3 @@
-module github.com/microsoft/vscode-remote-try-go
+module github.com/levpa/golang-try
 
-go 1.19
+go 1.24

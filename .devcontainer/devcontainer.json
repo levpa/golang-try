@@ -1,26 +1,18 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/go
 {
-	"name": "Go",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"name": "GoLang development",
 	"image": "mcr.microsoft.com/devcontainers/go:1-1.24-bookworm",
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-	// Configure tool-specific properties.
 	"customizations": {
-		// Configure properties specific to VS Code.
 		"vscode": {
-			"settings": {},
+			"settings": {
+				"go.lintTool": "golangci-lint",
+				"go.formatTool": "goimports"
+			},
 			"extensions": [
 				"streetsidesoftware.code-spell-checker",
 				"github.vscode-github-actions"
 			]
 		}
 	},
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [9000],
-	// Use 'portsAttributes' to set default properties for specific forwarded ports. 
-	// More info: https://containers.dev/implementors/json_reference/#port-attributes
 	"portsAttributes": {
 		"9000": {
 			"label": "Hello Remote World",
@@ -28,16 +20,9 @@
 		}
 	},
 	"features": {
-		"ghcr.io/devcontainers/features/aws-cli:1": {
-			"version": "latest"
-		},
-		"ghcr.io/devcontainers/features/github-cli:1": {
-			"installDirectlyFromGitHubRelease": true,
-			"version": "latest"
-		}
-	}
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "go version",
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+		"ghcr.io/devcontainers/features/aws-cli:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/guiyomh/features/golangci-lint:0": {}
+	},
+	"postCreateCommand": "make check && go version"
 }
