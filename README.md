@@ -7,14 +7,11 @@
 ## Code lint, check, validate
 
 ```sh
-# code format, check and linting
-golangci-lint run --verbose
+# lint, format and check errors
+make check
 
-# checks and verify modules
-go mod tidy && go mod verify
-
-# run unit tests
-go test ./
+# build binary
+make build
 ```
 
 ## Husky precommit
