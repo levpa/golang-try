@@ -32,13 +32,6 @@ jobs:
           make verify
           make test
 
-      - name: 🚀 Additional data for image labels
-        run: |
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          echo "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
-          echo "REPO=https://github.com/${{ github.repository }}" >> $GITHUB_ENV
-
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -46,32 +39,40 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: 🚀 Extract tag name
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        env:
-          REGISTRY: ghcr.io/levpa/golang-try
-        with:
-          context: .
-          push: true
-          tags: ${{ env.REGISTRY }}:${{ env.VERSION }}
-          cache-from: type=registry,ref=${{ env.REGISTRY }}:buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}:buildcache,mode=max
-          labels: |
-            org.opencontainers.image.source=${{ env.REPO }}
-            org.opencontainers.image.version=${{ env.VERSION }}
-            org.opencontainers.image.revision=${{ env.COMMIT }}
-            org.opencontainers.image.created=${{ env.DATE }}
-            org.opencontainers.image.description=minimalistic GoLang image for backend development
-            org.opencontainers.image.licenses=MIT
+      - name: Build docker image and push it to ghcr
+        run: |
+          make image_build
+          make image_push GHCR_TOKEN=${{ secrets.GHCR_TOKEN }}
 
-      # approach with make
-      # - name: 🚀 Extract tag name
-      #   run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
-      # - name: Build docker image and push it to ghcr
+      # - name: 🚀 Additional data for image labels
       #   run: |
-      #     make image_build
-      #     make image_push GHCR_TOKEN=${{ secrets.GHCR_TOKEN }}
+      #     echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      #     echo "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      #     echo "DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
+      #     echo "REPO=https://github.com/${{ github.repository }}" >> $GITHUB_ENV
+
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+
+      # - name: Build and push
+      #   uses: docker/build-push-action@v6
+      #   env:
+      #     REGISTRY: ghcr.io/levpa/golang-try
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ env.REGISTRY }}:${{ env.VERSION }}
+      #     cache-from: type=registry,ref=${{ env.REGISTRY }}:buildcache
+      #     cache-to: type=registry,ref=${{ env.REGISTRY }}:buildcache,mode=max
+      #     labels: |
+      #       org.opencontainers.image.source=${{ env.REPO }}
+      #       org.opencontainers.image.version=${{ env.VERSION }}
+      #       org.opencontainers.image.revision=${{ env.COMMIT }}
+      #       org.opencontainers.image.created=${{ env.DATE }}
+      #       org.opencontainers.image.description=minimalistic GoLang image for backend development
+      #       org.opencontainers.image.licenses=MIT
+
+
