@@ -1,4 +1,4 @@
-.PHONY: test verify build image precommit
+.PHONY: test verify build check-build image_build image_push precommit release
 
 precommit:
 	bash ./scripts/install-precommit-hook.sh
@@ -33,6 +33,9 @@ image_build:
 		-t $(GHCR):$(VERSION) .
 
 image_push:
+	@if [ -z "$(GHCR_TOKEN)" ]; then \
+		echo "❌ GHCR_TOKEN is not set"; exit 1; \
+	fi
 	echo "$(GHCR_TOKEN)" | docker login ghcr.io -u levpa --password-stdin
 	docker push $(GHCR):$(VERSION)
 
