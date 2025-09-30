@@ -28,3 +28,8 @@ image:
 		--label org.opencontainers.image.created="$(BUILD_DATE)" \
 		--label org.opencontainers.image.source="https://github.com/levpa/golang-try" \
 		-t levarc/golang-try:$(VERSION) .
+
+BUMP ?= patch
+
+release:
+	bash scripts/bump-version.sh $(BUMP)
