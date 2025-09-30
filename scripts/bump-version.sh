@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
-set -e
+set -eax
 
 # Default bump type
 BUMP_TYPE="${1:-patch}"
 
 # Get latest tag or fallback to 0.0.0
 LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
-LATEST_TAG="${LATEST_TAG:-v0.0.0}"
 
-# Strip leading 'v' if present
+LATEST_TAG="${LATEST_TAG:-v0.0.0}"
 VERSION="${LATEST_TAG#v}"
 
-IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+IFS='.' read -r MAJOR MINOR PATCH <<EOF
+$VERSION
+EOF
 
 case "$BUMP_TYPE" in
   major)
