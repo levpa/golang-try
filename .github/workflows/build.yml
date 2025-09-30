@@ -46,6 +46,9 @@ jobs:
           echo "DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
           echo "REPO=https://github.com/${{ github.repository }}" >> $GITHUB_ENV
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
       - name: Build and push
         uses: docker/build-push-action@v6
         env:
