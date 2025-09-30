@@ -21,9 +21,17 @@ jobs:
         with:
           go-version: '1.24.7'
 
+      - name: Cache golangci-lint install
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go-build
+          key: ${{ runner.os }}-golangci-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-golangci-
+
       - name: Tests, checks, analysis
         run: |
-          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest > /dev/null 2>&1
           go version && golangci-lint version
           make verify
           make lint
