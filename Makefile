@@ -1,4 +1,4 @@
-.PHONY: test verify build check-build image_build image_push precommit release
+.PHONY: test verify lint build check-build image_build image_push precommit release
 
 precommit:
 	bash ./scripts/install-precommit-hook.sh
@@ -6,8 +6,11 @@ precommit:
 verify:
 	go mod tidy && go mod download && go mod verify
 
+lint:
+	golangci-lint run --verbose ./...
+
 test:
-	golangci-lint run --verbose ./... && go test ./...
+	go test ./...
 
 check-build:
 	go build -trimpath -o /dev/null ./...

@@ -12,6 +12,9 @@ set -e
 echo "🔍 Running make verify..."
 make verify
 
+echo "🧪 Running make lint..."
+make lint
+
 echo "🧪 Running make test..."
 make test
 
