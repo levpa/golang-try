@@ -22,20 +22,19 @@ build:
 		-o main .
 
 GHCR := ghcr.io/levpa/golang-try
-GHCR_TOKEN ?= ghp_YOUR_GITHUB_TOKEN
+GHCR_TOKEN ?= undefined
 
 image_build:
-	docker build \
-		--label org.opencontainers.image.version="$(VERSION)" \
-		--label org.opencontainers.image.revision="$(COMMIT)" \
-		--label org.opencontainers.image.created="$(BUILD_DATE)" \
-		--label org.opencontainers.image.source="https://github.com/levpa/golang-try" \
+	docker buildx build \
+		--label "org.opencontainers.image.version=$(VERSION)" \
+		--label "org.opencontainers.image.revision=$(COMMIT)" \
+		--label "org.opencontainers.image.created=$(BUILD_DATE)" \
+		--label "org.opencontainers.image.source=https://github.com/levpa/golang-try" \
+		--label "org.opencontainers.image.description=minimalistic GoLang image for backend development" \
+		--label "org.opencontainers.image.licenses=MIT" \
 		-t $(GHCR):$(VERSION) .
 
 image_push:
-	@if [ -z "$(GHCR_TOKEN)" ]; then \
-		echo "❌ GHCR_TOKEN is not set"; exit 1; \
-	fi
 	echo "$(GHCR_TOKEN)" | docker login ghcr.io -u levpa --password-stdin
 	docker push $(GHCR):$(VERSION)
 
