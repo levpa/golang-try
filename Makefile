@@ -12,7 +12,7 @@ test:
 check-build:
 	go build -trimpath -o /dev/null ./...
 
-VERSION := $(shell git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$$' | head -n 1)
+VERSION ?= $(shell git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$$' | head -n 1)
 COMMIT := $(shell git rev-parse --short HEAD)
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 
