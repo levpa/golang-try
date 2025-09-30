@@ -23,11 +23,13 @@ make verify && make test && make check-build
 ## Docker
 
 ```sh
-# build Docker image
-make image
+# build and push Docker image to GitHub registry
+make image_build && make image_push GHCR_TOKEN=__classic_token_with_write/read/delete-packages_access__
 
-# inspect image labels
-docker inspect <IMAGE_ID> --format='{{json .Config.Labels}}' | jq
+# inspect image labels on last tagged image
+IMAGE_ID=$(docker images | grep -E 'v[0-9]+\.[0-9]+\.[0-9]+' | head -n 1 | awk '{print $3}')
+echo -e "\nIMAGE_ID: $IMAGE_ID\n"
+docker inspect $IMAGE_ID --format='{{json .Config.Labels}}' | jq
 ```
 
 ## Install precommit hook
