@@ -55,7 +55,7 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}:${{ env.VERSION }},${{ env.REGISTRY }}:latest
           cache-from: type=registry,ref=${{ env.REGISTRY }}:buildcache-main
-          cache-to: type=registry,ref=${{ env.REGISTRY }}:buildcache-main,mode=min
+          cache-to: type=registry,ref=${{ env.REGISTRY }}:buildcache-main,mode=max
           labels: |
             org.opencontainers.image.source=${{ env.REPO }}
             org.opencontainers.image.version=${{ env.VERSION }}
