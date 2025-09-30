@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
       - uses: actions/setup-go@v6
         with:
           go-version: '1.24'
@@ -27,17 +24,10 @@ jobs:
         with:
           version: v2.5
 
-      - name: Unit tests, dependency checks and downloads
+      - name: Unit tests, dependency checks
         run: |
           make verify
           make test
-
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🚀 Additional data for image labels
         run: |
@@ -48,6 +38,13 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
@@ -67,7 +64,8 @@ jobs:
             org.opencontainers.image.description=minimalistic GoLang image for backend development
             org.opencontainers.image.licenses=MIT
 
-      # more simple approach with makefile
+      # simpler approach with makefile
+  
       # - name: 🚀 Extract tag name
       #   run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
