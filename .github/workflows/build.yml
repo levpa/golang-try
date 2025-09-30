@@ -38,12 +38,14 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v6
+        env:
+          REGISTRY: ghcr.io/levpa/golang-try
         with:
           context: .
           push: true
-          tags: ghcr.io/levpa/golang-try:${{ env.VERSION }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: ${{ env.REGISTRY }}:${{ env.VERSION }}
+          cache-from: type=registry,ref=${{ env.REGISTRY }}:buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}:buildcache,mode=max
           labels: |
             org.opencontainers.image.source=${{ env.REPO }}
             org.opencontainers.image.version=${{ env.VERSION }}
@@ -51,3 +53,12 @@ jobs:
             org.opencontainers.image.created=${{ env.DATE }}
             org.opencontainers.image.description=minimalistic GoLang image for backend development
             org.opencontainers.image.licenses=MIT
+
+      # approach with make
+      # - name: 🚀 Extract tag name
+      #   run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      # - name: Build docker image and push it to ghcr
+      #   run: |
+      #     make image_build
+      #     make image_push GHCR_TOKEN=${{ secrets.GHCR_TOKEN }}

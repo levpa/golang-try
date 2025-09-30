@@ -9,7 +9,8 @@
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "eamodio.gitlens"
       ]
     }
   },
