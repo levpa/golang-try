@@ -25,5 +25,5 @@
     "ghcr.io/guiyomh/features/golangci-lint:0": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "postCreateCommand": "go install golang.org/x/tools/cmd/goimports@latest && make verify && make test"
+  "postCreateCommand": "./scripts/dev-bootstrap.sh"
 }
