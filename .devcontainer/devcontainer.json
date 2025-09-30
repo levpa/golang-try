@@ -1,11 +1,23 @@
 {
   "name": "GoLang development",
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=${env:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
+    "source=${env:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
+  ],
+  "runArgs": [
+    "-e",
+    "SSH_AUTH_SOCK=/ssh-agent",
+    "-v",
+    "${env:SSH_AUTH_SOCK}:/ssh-agent"
+  ],
   "image": "mcr.microsoft.com/devcontainers/go:1-1.24-bookworm",
   "customizations": {
     "vscode": {
       "settings": {
         "go.lintTool": "golangci-lint",
-        "go.formatTool": "goimports"
+        "go.formatTool": "goimports",
+        "git.path": "/usr/bin/git"
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
