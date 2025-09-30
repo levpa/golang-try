@@ -1,10 +1,8 @@
 FROM mcr.microsoft.com/devcontainers/go:1-1.24-bookworm AS builder
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod tidy && go mod download && go mod verify
-
 COPY . .
+RUN go mod tidy && go mod download && go mod verify
 RUN make build
 
 FROM gcr.io/distroless/static
