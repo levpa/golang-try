@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   packages: write
+  pull-requests: read
 
 jobs:
   build-and-push:
@@ -21,16 +22,14 @@ jobs:
         with:
           go-version: '1.24'
 
-      - name: golangci-lint
+      - name: golangci-lint checks
         uses: golangci/golangci-lint-action@v8
         with:
           version: v2.5
 
       - name: Tests, checks, analysis
         run: |
-          go version && golangci-lint version
           make verify
-          make lint
           make test
 
       - name: 🚀 Additional data for image labels
