@@ -4,18 +4,34 @@
 
 - [1Password Commit signing](https://vinialbano.com/how-to-sign-git-commits-with-1password/)
 
+## DevContainers development
+
+Ctrl + Shift + P: Dev Containers
+
+- reopen in container
+- rebuild container 
+- rebuild container without cache
+
+
 ## Code lint, check, validate
 
 ```sh
 # lint, format and check errors
-make check
-
-# build binary
-make build
+make verify && make test && make check-build
 ```
 
-## Husky precommit
+## Docker
 
 ```sh
-npx husky add .husky/pre-commit "golangci-lint run ./ && go test ./. && go mod tidy && go mod verify"
+# build Docker image
+make image
+
+# inspect image labels
+docker inspect <IMAGE_ID> --format='{{json .Config.Labels}}' | jq
+```
+
+## Install precommit hook
+
+```sh
+make precommit # runs verify/test/check-build on each commit
 ```

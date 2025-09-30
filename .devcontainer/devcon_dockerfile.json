@@ -1,0 +1,33 @@
+{
+	"name": "GoLang DevContainer",
+	"build": {
+		"dockerfile": "../Dockerfile/Debian_based_bookworm",
+		"context": "..",
+		"target": "dev"
+	},
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"go.lintTool": "golangci-lint",
+				"go.formatTool": "goimports",
+				"go.useLanguageServer": true
+			},
+			"extensions": [
+				"golang.go",
+				"github.vscode-github-actions",
+				"streetsidesoftware.code-spell-checker"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/aws-cli:1": {}
+	},
+	"portsAttributes": {
+		"9000": {
+			"label": "Go App",
+			"onAutoForward": "openBrowser"
+		}
+	},
+	"postCreateCommand": "make verify && make check && go version"
+}
