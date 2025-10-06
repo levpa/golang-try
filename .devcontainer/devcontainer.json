@@ -17,7 +17,6 @@
       "settings": {
         "go.lintTool": "golangci-lint",
         "go.formatTool": "goimports",
-        "git.path": "/usr/bin/git"
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
