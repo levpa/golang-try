@@ -16,7 +16,6 @@
     "vscode": {
       "settings": {
         "go.lintTool": "golangci-lint",
-        "go.formatTool": "goimports",
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
