@@ -20,4 +20,7 @@ make verify
 echo "🧪 Running make test..."
 make test
 
+echo "Install precommit hook"
+make precommit
+
 echo "✅ Dev Container bootstrap complete."
