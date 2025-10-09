@@ -1,4 +1,4 @@
-.PHONY: test verify lint build check-build image_build image_push precommit release
+.PHONY: test verify lint build check-build image_build image_push precommit release chlog-write
 
 precommit:
 	bash ./scripts/install-precommit-hook.sh
@@ -46,3 +46,8 @@ BUMP ?= patch
 release:
 	@echo "🚀 Releasing version bump..."
 	bash scripts/bump-version.sh $(BUMP)
+
+chlog-write:
+	@git log -n 10 --pretty=format:"- %h %s" > CHANGELOG.md
+	@git add CHANGELOG.md
+	@cat CHANGELOG.md
