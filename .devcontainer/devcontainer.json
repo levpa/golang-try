@@ -1,5 +1,6 @@
 {
   "name": "GoLang development",
+  "image": "mcr.microsoft.com/devcontainers/go:1.25-bookworm",
   "remoteUser": "vscode",
   "mounts": [
     "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind",
@@ -9,14 +10,13 @@
   "containerEnv": {
     "SSH_AUTH_SOCK": "/ssh-agent"
   },
-  "image": "mcr.microsoft.com/devcontainers/go:1-1.24-bookworm",
   "customizations": {
     "vscode": {
       "settings": {
         "go.lintTool": "golangci-lint",
       },
       "extensions": [
-        "streetsidesoftware.code-spell-checker",
+        "golang.go",
         "github.vscode-github-actions",
         "eamodio.gitlens"
       ]
