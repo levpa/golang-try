@@ -1,3 +1,4 @@
+- 19089a9 added changelog to release
 - 3edf84b hook test
 - d07e4b0 configuration update
 - 698acb8 config binding fix, minor script fix
@@ -7,4 +8,3 @@
 - 6187ac7 repo cleanup
 - 997e88d dev container signing
 - e2ec435 signing test
-- dfa4051 cache test
