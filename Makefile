@@ -16,7 +16,7 @@ check-build:
 	go build -trimpath -o /dev/null ./...
 
 VERSION ?= $(shell git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$$' | head -n 1)
-COMMIT := $(shell git rev-parse --short HEAD)
+COMMIT := $(shell git rev-parse --relative HEAD)
 BUILD_DATE := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 
 build:
@@ -47,37 +47,43 @@ release:
 	@echo "🚀 Releasing version bump..."
 	bash scripts/bump-version.sh $(BUMP)
 
-CHLOG_LENGTH ?= 50
+CHLOG_LENGTH ?= 15
+BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
 chlog-write:
 	@echo "# 📦 Changelog" > CHANGELOG.md
 	@echo "" >> CHANGELOG.md
-	@echo "## $(shell date '+%Y-%m-%d')" >> CHANGELOG.md
+	@echo "##Date: $(shell date '+%Y-%m-%d')" >> CHANGELOG.md
 	@echo "" >> CHANGELOG.md
 	@rm -f .chlog-seen
 
-	@echo "### ✨ Features" >> CHANGELOG.md
-	@git log -n $(CHLOG_LENGTH) --grep="^feat:" --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short \
+	@echo "\n### ✨ Features" >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --grep="^feat:" --pretty=format:"- %h %d %s (%ad)" --date=relative \
 	| tee -a CHANGELOG.md | cut -d' ' -f2 >> .chlog-seen
 	@echo "" >> CHANGELOG.md
 
-	@echo "### 🐛 Fixes" >> CHANGELOG.md
-	@git log -n $(CHLOG_LENGTH) --grep="^fix:" --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short \
+	@echo "\n### 🐛 Fixes" >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --grep="^fix:" --pretty=format:"- %h %d %s (%ad)" --date=relative \
 	| tee -a CHANGELOG.md | cut -d' ' -f2 >> .chlog-seen
 	@echo "" >> CHANGELOG.md
 
-	@echo "### 🧹 Chores & Refactors" >> CHANGELOG.md
-	@git log -n $(CHLOG_LENGTH) --grep="^chore:\|^refactor:" --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short \
+	@echo "\n### 🧹 Chores & Refactors" >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --grep="^chore:\|^refactor:" --pretty=format:"- %h %d %s (%ad)" --date=relative \
 	| tee -a CHANGELOG.md | cut -d' ' -f2 >> .chlog-seen
 	@echo "" >> CHANGELOG.md
 
-	@echo "### 📌 Other Commits" >> CHANGELOG.md
-	@git log -n $(CHLOG_LENGTH) --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short | while read line; do \
+	@echo "\n### 📌 Other Commits" >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --pretty=format:"- %h %d %s (%ad)" --date=relative | while read line; do \
 	  hash=$$(echo $$line | cut -d' ' -f2); \
 	  grep -q $$hash .chlog-seen || echo "$$line" >> CHANGELOG.md; \
 	done
 	@echo "" >> CHANGELOG.md
-	@sed -i -E 's/\(HEAD[^)]*\)//g; s/origin\/[^,)]*,? ?//g; s/main,? ?//g' CHANGELOG.md
+	@sed -i -E \
+		-e 's/HEAD -> $(BRANCH),? ?//g' \
+		-e 's/origin\/$(BRANCH),? ?//g' \
+		-e 's/origin\/HEAD,? ?//g' \
+		-e 's/ ,/,/g; s/, \)/)/g' \
+		CHANGELOG.md
 
 	@rm -f .chlog-seen
 	@git add CHANGELOG.md
