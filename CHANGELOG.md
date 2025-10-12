@@ -5,10 +5,13 @@
 ### ✨ Features
 
 ### 🐛 Fixes
-
+- 2295fbe fix: remove CRLF endings — _Lev Pasichnyi_ (2025-10-12)
+- 4e1f919 fix: occasionally some files had CRLF endings — _Lev Pasichnyi_ (2025-10-12)
 ### 🧹 Chores & Refactors
 
 ### 📌 Other Commits
+- 2295fbe fix: remove CRLF endings — _Lev Pasichnyi_ (2025-10-12)
+- 4e1f919 fix: occasionally some files had CRLF endings — _Lev Pasichnyi_ (2025-10-12)
 - 9525ed3 Merge pull request #3 from levpa/dev — _Lev Pasichnyi_ (2025-10-12)
 - af9e5e8 dome — _Lev Pasichnyi_ (2025-10-12)
 - c1233c1 merge commit — _Lev Pasichnyi_ (2025-10-12)
@@ -17,8 +20,6 @@
 - 8630a09 Go version bump to 1.25 — _Lev Pasichnyi_ (2025-10-09)
 - 19089a9 added changelog to release — _Lev Pasichnyi_ (2025-10-09)
 - 3edf84b hook test — _Lev Pasichnyi_ (2025-10-09)
-- d07e4b0 configuration update — _Lev Pasichnyi_ (2025-10-09)
-- 698acb8 config binding fix, minor script fix — _Lev Pasichnyi_ (2025-10-09)
 
 🔖 Changes since last tag: v0.0.35
 

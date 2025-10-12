@@ -68,4 +68,3 @@ chlog-write:
 	@echo "🔖 Changes since last tag: $(shell git describe --tags --abbrev=0)" >> CHANGELOG.md
 	@echo "" >> CHANGELOG.md
 	@git add CHANGELOG.md
-	@cat CHANGELOG.md
