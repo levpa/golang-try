@@ -1,10 +1,24 @@
-- 19089a9 added changelog to release
-- 3edf84b hook test
-- d07e4b0 configuration update
-- 698acb8 config binding fix, minor script fix
-- 208c4f7 local time fix
-- 9b62a5c less tools
-- c86da0a remove dockerfile
-- 6187ac7 repo cleanup
-- 997e88d dev container signing
-- e2ec435 signing test
+# 📦 Changelog
+
+## 2025-10-12
+
+### ✨ Features
+
+### 🐛 Fixes
+
+### 🧹 Chores & Refactors
+
+### 📌 Other Commits
+- 9525ed3 Merge pull request #3 from levpa/dev — _Lev Pasichnyi_ (2025-10-12)
+- af9e5e8 dome — _Lev Pasichnyi_ (2025-10-12)
+- c1233c1 merge commit — _Lev Pasichnyi_ (2025-10-12)
+- d4e447c remove the changes — _Lev Pasichnyi_ (2025-10-12)
+- 6309cb8 Go version bump to 1.25 — _Lev Pasichnyi_ (2025-10-09)
+- 8630a09 Go version bump to 1.25 — _Lev Pasichnyi_ (2025-10-09)
+- 19089a9 added changelog to release — _Lev Pasichnyi_ (2025-10-09)
+- 3edf84b hook test — _Lev Pasichnyi_ (2025-10-09)
+- d07e4b0 configuration update — _Lev Pasichnyi_ (2025-10-09)
+- 698acb8 config binding fix, minor script fix — _Lev Pasichnyi_ (2025-10-09)
+
+🔖 Changes since last tag: v0.0.35
+
