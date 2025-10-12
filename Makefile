@@ -53,7 +53,7 @@ BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 chlog:
 	@echo "# 📦 Changelog" > CHANGELOG.md
 	@echo "" >> CHANGELOG.md
-	@echo "##Date: $(shell date '+%Y-%m-%d')" >> CHANGELOG.md
+	@echo "## Date: $(shell date '+%Y-%m-%d')" >> CHANGELOG.md
 	@echo "" >> CHANGELOG.md
 	@rm -f .chlog-seen
 
