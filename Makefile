@@ -48,6 +48,24 @@ release:
 	bash scripts/bump-version.sh $(BUMP)
 
 chlog-write:
-	@git log -n 10 --pretty=format:"- %h %s" > CHANGELOG.md
+	@echo "# 📦 Changelog" > CHANGELOG.md
+	@echo "" >> CHANGELOG.md
+	@echo "## $(shell date '+%Y-%m-%d')" >> CHANGELOG.md
+	@echo "" >> CHANGELOG.md
+	@echo "### ✨ Features" >> CHANGELOG.md
+	@git log -n 10 --grep="^feat:" --pretty=format:"- %h %s — _%an_ (%ad)" --date=short >> CHANGELOG.md
+	@echo "" >> CHANGELOG.md
+	@echo "### 🐛 Fixes" >> CHANGELOG.md
+	@git log -n 10 --grep="^fix:" --pretty=format:"- %h %s — _%an_ (%ad)" --date=short >> CHANGELOG.md
+	@echo "" >> CHANGELOG.md
+	@echo "### 🧹 Chores & Refactors" >> CHANGELOG.md
+	@git log -n 10 --grep="^chore:\|^refactor:" --pretty=format:"- %h %s — _%an_ (%ad)" --date=short >> CHANGELOG.md
+	@echo "" >> CHANGELOG.md
+	@echo "### 📌 Other Commits" >> CHANGELOG.md
+	@git log -n 10 --pretty=format:"- %h %s — _%an_ (%ad)" --date=short \
+		| grep -v "^feat:" | grep -v "^fix:" | grep -v "^chore:" | grep -v "^refactor:" >> CHANGELOG.md
+	@echo "" >> CHANGELOG.md
+	@echo "🔖 Changes since last tag: $(shell git describe --tags --abbrev=0)" >> CHANGELOG.md
+	@echo "" >> CHANGELOG.md
 	@git add CHANGELOG.md
 	@cat CHANGELOG.md
