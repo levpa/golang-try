@@ -47,24 +47,38 @@ release:
 	@echo "🚀 Releasing version bump..."
 	bash scripts/bump-version.sh $(BUMP)
 
+CHLOG_LENGTH ?= 50
+
 chlog-write:
 	@echo "# 📦 Changelog" > CHANGELOG.md
 	@echo "" >> CHANGELOG.md
 	@echo "## $(shell date '+%Y-%m-%d')" >> CHANGELOG.md
 	@echo "" >> CHANGELOG.md
+	@rm -f .chlog-seen
+
 	@echo "### ✨ Features" >> CHANGELOG.md
-	@git log -n 10 --grep="^feat:" --pretty=format:"- %h %s — _%an_ (%ad)" --date=short >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --grep="^feat:" --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short \
+	| tee -a CHANGELOG.md | cut -d' ' -f2 >> .chlog-seen
 	@echo "" >> CHANGELOG.md
+
 	@echo "### 🐛 Fixes" >> CHANGELOG.md
-	@git log -n 10 --grep="^fix:" --pretty=format:"- %h %s — _%an_ (%ad)" --date=short >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --grep="^fix:" --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short \
+	| tee -a CHANGELOG.md | cut -d' ' -f2 >> .chlog-seen
 	@echo "" >> CHANGELOG.md
+
 	@echo "### 🧹 Chores & Refactors" >> CHANGELOG.md
-	@git log -n 10 --grep="^chore:\|^refactor:" --pretty=format:"- %h %s — _%an_ (%ad)" --date=short >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --grep="^chore:\|^refactor:" --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short \
+	| tee -a CHANGELOG.md | cut -d' ' -f2 >> .chlog-seen
 	@echo "" >> CHANGELOG.md
+
 	@echo "### 📌 Other Commits" >> CHANGELOG.md
-	@git log -n 10 --pretty=format:"- %h %s — _%an_ (%ad)" --date=short \
-		| grep -v "^feat:" | grep -v "^fix:" | grep -v "^chore:" | grep -v "^refactor:" >> CHANGELOG.md
+	@git log -n $(CHLOG_LENGTH) --pretty=format:"- %h %d %s — _%an_ (%ad)" --date=short | while read line; do \
+	  hash=$$(echo $$line | cut -d' ' -f2); \
+	  grep -q $$hash .chlog-seen || echo "$$line" >> CHANGELOG.md; \
+	done
 	@echo "" >> CHANGELOG.md
-	@echo "🔖 Changes since last tag: $(shell git describe --tags --abbrev=0)" >> CHANGELOG.md
-	@echo "" >> CHANGELOG.md
+	@sed -i -E 's/\(HEAD[^)]*\)//g; s/origin\/[^,)]*,? ?//g; s/main,? ?//g' CHANGELOG.md
+
+	@rm -f .chlog-seen
 	@git add CHANGELOG.md
+	@cat CHANGELOG.md
