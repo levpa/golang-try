@@ -4,16 +4,16 @@
 
 
 ### ✨ Features
-- a229188  () feat: changelog done (14 seconds ago)
+- a229188  feat: changelog done (3 minutes ago)
 
 ### 🐛 Fixes
-- a2726bd  (tag: v0.0.36) fix: new filtering (36 minutes ago)
-- afc50ff  fix: test changelog (54 minutes ago)
-- 2295fbe  fix: remove CRLF endings (56 minutes ago)
-- 4e1f919  fix: occasionally some files had CRLF endings (60 minutes ago)
+- a2726bd  (tag: v0.0.36) fix: new filtering (39 minutes ago)
+- afc50ff  fix: test changelog (57 minutes ago)
+- 2295fbe  fix: remove CRLF endings (59 minutes ago)
+- 4e1f919  fix: occasionally some files had CRLF endings (63 minutes ago)
 
 ### 🧹 Chores & Refactors
-
+- 6ffcd39  (tag: v0.0.37) chore: tag test (64 seconds ago)
 
 ### 📌 Other Commits
 - 9525ed3  Merge pull request #3 from levpa/dev (2 hours ago)
@@ -24,5 +24,4 @@
 - 8630a09  (tag: v0.0.35) Go version bump to 1.25 (3 days ago)
 - 19089a9  (tag: v0.0.34) added changelog to release (3 days ago)
 - 3edf84b  (tag: v0.0.33) hook test (3 days ago)
-- d07e4b0  configuration update (3 days ago)
 
